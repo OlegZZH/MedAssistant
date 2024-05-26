@@ -24,46 +24,19 @@ Window {
         anchors.rightMargin: 12
         anchors.topMargin: 20
         anchors.bottomMargin: 12
-        model: ListModel {
-            ListElement {
-                name: "Grey"
-                colorCode: "grey"
-            }
-
-            ListElement {
-                name: "Red"
-                colorCode: "red"
-            }
-
-            ListElement {
-                name: "Blue"
-                colorCode: "blue"
-            }
-
-            ListElement {
-                name: "Green"
-                colorCode: "green"
-            }
-        }
-        delegate: Item {
-            x: 5
-            width: 80
-            height: 40
-            Row {
-                id: row1
-                spacing: 10
-                Rectangle {
-                    width: 40
-                    height: 40
-                    color: colorCode
-                }
-
-                Text {
-                    text: name
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.bold: true
-                }
-            }
+        spacing: 10
+        model: med_model.patient_list
+        delegate: DropDownBlockWidget {
+            titleText: model.patient_name
+            ageFieldWidgetInputText: model.age
+            sexFieldWidget.current: sexFieldWidget.comboModel.indexOf(model.sex)
+            cholesterolLevelFieldWidget.current: cholesterolLevelFieldWidget.comboModel.indexOf(model.cholesterol_level)
+            bloodPressureFieldWidget.current: bloodPressureFieldWidget.comboModel.indexOf(model.blood_pressure)
+            difficultyBreathingCheckBoxWidgetChecked: model.difficulty_breathing
+            fatigueCheckBoxWidgetChecked: model.fatigue
+            coughCheckBoxWidgetChecked: model.cough
+            feverCheckBoxWidgetChecked: model.fever
+            diseaseText: model.disease
         }
 
         CustomModal {
@@ -114,7 +87,7 @@ Window {
             icon.source: "images/tools.svg"
             display: AbstractButton.IconOnly
             background: Rectangle {
-                color: "#00ffffff"
+                color: settingsButton.down ? "#03040A" : "#00ffffff"
             }
         }
     }

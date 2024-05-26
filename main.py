@@ -6,6 +6,9 @@ from PyQt6.QtCore import QTimer
 from PyQt6.QtQml import QQmlApplicationEngine
 from PyQt6.QtWidgets import QApplication
 
+from controller import Controller
+from model import Model
+
 if __name__ == "__main__":
     app_dir = Path(__file__).resolve().parent
 
@@ -33,12 +36,12 @@ if __name__ == "__main__":
     exit_timer.timeout.connect(lambda: None)
     exit_timer.start(1000)
 
-    # med_model = Model()
-    # med_controller = Controller(med_model)
+    med_model = Model()
+    med_controller = Controller(med_model)
     med_view = QQmlApplicationEngine()
 
-    # med_view.rootContext().setContextProperty("med_model", med_model)
-    # med_view.rootContext().setContextProperty("med_controller", med_controller)
+    med_view.rootContext().setContextProperty("med_model", med_model)
+    med_view.rootContext().setContextProperty("med_controller", med_controller)
 
     med_view.addImportPath(f"{app_dir}/view/imports")
     qml_file = f"{app_dir}/view/content/App.qml"

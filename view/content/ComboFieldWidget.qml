@@ -4,6 +4,7 @@ import QtQuick.Controls 6.6
 Item {
     id: comboFieldWidget
     height: comboBox.height + fieldName1.height + 8
+    property alias currentText: comboBox.currentText
     property alias comboBoxEnabled: comboBox.enabled
     width: comboBox.width
     property string fieldTitle: "Name"

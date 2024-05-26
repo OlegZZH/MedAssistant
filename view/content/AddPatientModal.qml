@@ -50,6 +50,13 @@ ModalWindowFrame {
         anchors.leftMargin: 10
         anchors.rightMargin: 40
         anchors.bottomMargin: 40
+        onClicked: {
+            med_controller.add_patient(nameFieldWidget.inputText, ageFieldWidget.inputText, sexFieldWidget.currentText,
+                                       cholesterolLevelFieldWidget.currentText, bloodPressureFieldWidget.currentText,
+                                       difficultyBreathingCheckBoxWidget.checked, fatigueCheckBoxWidget.checked,
+                                       coughCheckBoxWidget.checked, feverCheckBoxWidget.checked)
+            addPatientDialog.close()
+        }
     }
 
     Text {
