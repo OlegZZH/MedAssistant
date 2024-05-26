@@ -1,0 +1,16 @@
+@startyaml
+
+patient_list (QAbstractListModel):
+    patient_id (Property): (str)
+    patient_name (Property): (str)
+    age (Property):(int)
+    sex (Property):(str)
+    cholesterol_level(Property):(str)
+    blood_pressure(Property):(str)
+    difficulty_breathing(Property):(bool)
+    fatigue(Property):(bool)
+    cough(Property):(bool)
+    fever(Property):(bool)
+    disease(Property):(str)
+
+@endyaml
