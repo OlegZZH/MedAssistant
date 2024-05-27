@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+
 from PyQt6.QtCore import QObject
 from PyQt6.QtCore import pyqtSignal as Signal, pyqtSlot as Slot
 
@@ -5,6 +8,7 @@ from controller.task_manager import TaskManager, background_task
 from model.model import Model
 from mongodb.storage import DatabaseApplication
 import uuid
+import csv
 
 
 class Controller(TaskManager):
@@ -63,3 +67,20 @@ class Controller(TaskManager):
         for patient_id in patients:
             self.model.patient_list.remove(patient_id)
             self.db_app.patients.delete(patient_id)
+
+    @Slot(str)
+    @background_task
+    def export_to_csv(self, path):
+        with open(os.path.join(path, f"{datetime.now().isoformat()}.csv"), mode='w', newline='',
+                  encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=["patient_id", "patient_name", "sex", "age", "cholesterol_level",
+                                                      "blood_pressure", "difficulty_breathing", "fatigue", "cough",
+                                                      "fever", "disease"])
+            writer.writeheader()
+            for patient in self.model.patient_list._patients:
+                writer.writerow(
+                    {"patient_id": patient.patient_id, "patient_name": patient.patient_name, "sex": patient.sex,
+                     "age": patient.age, "cholesterol_level": patient.cholesterol_level,
+                     "blood_pressure": patient.blood_pressure, "difficulty_breathing": patient.difficulty_breathing,
+                     "fatigue": patient.fatigue, "cough": patient.cough,
+                     "fever": patient.fever, "disease": patient.disease})

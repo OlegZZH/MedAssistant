@@ -4,6 +4,7 @@ import QtQuick 6.6
 import MedAssistant
 import QtQuick.Controls 6.6
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 Window {
     id: window
@@ -84,6 +85,16 @@ Window {
             display: AbstractButton.IconOnly
             background: Rectangle {
                 color: exportButton.down ? "#03040A" : "#00ffffff"
+            }
+            FolderDialog {
+                id: fileDialog
+                title: "Select a folder to export to CSV"
+                onAccepted: {
+                    med_controller.export_to_csv(currentFolder)
+                }
+            }
+            onClicked: {
+                fileDialog.open()
             }
         }
 
