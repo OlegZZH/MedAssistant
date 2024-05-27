@@ -19,8 +19,9 @@ Rectangle {
     property alias coughCheckBoxWidgetChecked: coughCheckBoxWidget.checked
     property alias feverCheckBoxWidgetChecked: feverCheckBoxWidget.checked
     property alias ageFieldWidgetInputText: ageFieldWidget.inputText
-    property alias nameFieldWidgetInputText: nameFieldWidget.inputText
     property alias titleText: name.text
+    property bool checkable: false
+    property bool checked: false
     clip: true
     property bool enabled: true
     property int fullSizeHeight: 400
@@ -54,8 +55,18 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.rightMargin: 20
         anchors.bottomMargin: 20
-        source: "images/chevron.svg"
-        rotation: 90
+        source: {
+            if (checkable) {
+                if (checked) {
+                    return "images/checked.svg"
+                } else {
+                    return "images/unchecked.svg"
+                }
+            } else {
+                return "images/chevron.svg"
+            }
+        }
+        rotation: checkable ? 0 : 90
         opacity: dropDownWidget.enabled ? 1 : 0.5
         fillMode: Image.PreserveAspectFit
     }
@@ -64,7 +75,11 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         enabled: dropDownWidget.enabled
-        onClicked: {
+        onClicked: checkable ? selectFunct() : openFunct()
+        function selectFunct() {
+            checked = !checked
+        }
+        function openFunct() {
             if (dropDownWidget.state === "") {
                 dropDownWidget.state = "opened"
             } else {
@@ -107,7 +122,7 @@ Rectangle {
             anchors.top: rectangle.bottom
             anchors.topMargin: 6
             placeholderText: "Patient Name"
-            inputText: ""
+            inputText: name.text
             enabled: false
             inputHints: Qt.ImhPreferUppercase
         }
@@ -258,6 +273,11 @@ Rectangle {
             properties: "height,rotation,opacity"
             duration: 500
             easing.type: Easing.InOutQuad
+        }
+    }
+    onCheckableChanged: {
+        if (checkable && state !== "") {
+            state = ""
         }
     }
 }

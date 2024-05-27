@@ -56,3 +56,10 @@ class Controller(TaskManager):
                                                              blood_pressure, difficulty_breathing, fatigue, cough,
                                                              fever, disease)
         print(patient)
+
+    @Slot(list)
+    @background_task
+    def remove_patients(self, patients):
+        for patient_id in patients:
+            self.model.patient_list.remove(patient_id)
+            self.db_app.patients.delete(patient_id)

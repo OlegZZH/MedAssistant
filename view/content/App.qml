@@ -13,17 +13,21 @@ Window {
     visible: true
     color: "#111428"
     title: "MedAssistant"
+    property bool delModeEnabled: false
 
     ListView {
         id: listView
+        property var patientGroup: []
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: addButton.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: bottomButtons.top
         anchors.leftMargin: 12
         anchors.rightMargin: 12
         anchors.topMargin: 20
         anchors.bottomMargin: 12
+        clip: true
         spacing: 10
         model: med_model.patient_list
         delegate: DropDownBlockWidget {
@@ -37,6 +41,14 @@ Window {
             coughCheckBoxWidgetChecked: model.cough
             feverCheckBoxWidgetChecked: model.fever
             diseaseText: model.disease
+            checkable: delModeEnabled
+            onCheckedChanged: {
+                if (checked) {
+                    listView.patientGroup.push(model.patient_id)
+                } else {
+                    listView.patientGroup.pop(model.patient_id)
+                }
+            }
         }
 
         CustomModal {
@@ -65,7 +77,7 @@ Window {
             width: 48
             height: 48
             anchors.verticalCenter: parent.verticalCenter
-            anchors.right: settingsButton.left
+            anchors.right: binButton.left
             anchors.rightMargin: 12
             icon.color: "#ffffff"
             icon.source: "images/export.svg"
@@ -76,7 +88,7 @@ Window {
         }
 
         Button {
-            id: settingsButton
+            id: binButton
             x: 615
             width: 48
             height: 48
@@ -84,10 +96,13 @@ Window {
             anchors.right: parent.right
             anchors.rightMargin: 12
             icon.color: "#ffffff"
-            icon.source: "images/tools.svg"
+            icon.source: "images/bin.png"
             display: AbstractButton.IconOnly
             background: Rectangle {
-                color: settingsButton.down ? "#03040A" : "#00ffffff"
+                color: binButton.down ? "#03040A" : "#00ffffff"
+            }
+            onClicked: {
+                delModeEnabled = !delModeEnabled
             }
         }
     }
@@ -104,6 +119,7 @@ Window {
         font.pixelSize: 30
         icon.color: "#ffffff"
         opacity: down ? 0.6 : 1
+        radius: 14
         background: Rectangle {
             color: addButton.down ? "#03040A" : "#111428"
             radius: addButton.radius
@@ -129,6 +145,50 @@ Window {
         }
         function fillAndOpen() {
             addPatientDialog.open()
+        }
+    }
+
+    Item {
+        id: bottomButtons
+        y: 851
+        height: 64
+        visible: delModeEnabled
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 12
+        anchors.rightMargin: 12
+        anchors.bottomMargin: 12
+
+        OkButtonWidget {
+            id: okButtonWidget
+            text: "Delete"
+            enabled: listView.count > 0
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.horizontalCenter
+            anchors.right: parent.right
+            anchors.leftMargin: 10
+            anchors.rightMargin: 0
+            onClicked: {
+                med_controller.remove_patients(listView.patientGroup)
+                delModeEnabled = false
+            }
+        }
+
+        ButtonWithTextWidget {
+            id: buttonWithTextWidget
+            height: 64
+            text: "Close"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.right: parent.horizontalCenter
+            anchors.leftMargin: 0
+            anchors.rightMargin: 10
+            borderRadius: 12
+            onClicked: {
+                delModeEnabled = false
+            }
         }
     }
 }
