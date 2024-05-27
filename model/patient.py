@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 
 from PyQt6.QtCore import QObject, pyqtProperty as Property, Qt, QAbstractListModel, QModelIndex
 from PyQt6.QtCore import pyqtSignal as Signal, pyqtSlot as Slot
@@ -50,7 +50,7 @@ class PatientList(QAbstractListModel):
     # NOTE:
     # The additional internal Signal-Slot connections are used ot make the list model thread safe.
     # See https://bugreports.qt.io/browse/QTBUG-60415 for more details.
-    _append_signal = Signal(str, int, str, str, str, bool, bool, bool, bool, str)
+    _append_signal = Signal(str, str, int, str, str, str, bool, bool, bool, bool, str)
     _remove_signal = Signal(str)
 
     def __init__(self, parent=None):
@@ -86,23 +86,92 @@ class PatientList(QAbstractListModel):
         elif role == ROLE_DISEASE:
             return self._patients[index.row()].disease
 
+    def setData(self, index: QModelIndex, value: Any, role: int = Qt.ItemDataRole.EditRole) -> bool:
+        if not (0 <= index.row() < self.rowCount()):
+            return False
+
+        if role == Qt.ItemDataRole.EditRole or role == ROLE_NAME:
+            if type(value) is str:
+                if self._patients[index.row()].patient_name != value:
+                    self._patients[index.row()].patient_name = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_AGE:
+            if type(value) is str:
+                if self._patients[index.row()].age != value:
+                    self._patients[index.row()].age = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_SEX:
+            if type(value) is str:
+                if self._patients[index.row()].sex != value:
+                    self._patients[index.row()].sex = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_CHOLESTEROL_LEVEL:
+            if type(value) is str:
+                if self._patients[index.row()].cholesterol_level != value:
+                    self._patients[index.row()].cholesterol_level = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_BLOOD_PRESSURE:
+            if type(value) is bool:
+                if self._patients[index.row()].blood_pressure != value:
+                    self._patients[index.row()].blood_pressure = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_DIFFICULTY_BREATHING:
+            if type(value) is bool:
+                if self._patients[index.row()].difficulty_breathing != value:
+                    self._patients[index.row()].difficulty_breathing = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_FATIGUE:
+            if type(value) is bool:
+                if self._patients[index.row()].fatigue != value:
+                    self._patients[index.row()].fatigue = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_COUGH:
+            if type(value) is bool:
+                if self._patients[index.row()].cough != value:
+                    self._patients[index.row()].cough = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_FEVER:
+            if type(value) is bool:
+                if self._patients[index.row()].fever != value:
+                    self._patients[index.row()].fever = value
+                    self.dataChanged.emit(index, index)
+                return True
+        elif role == ROLE_DISEASE:
+            if type(value) is bool:
+                if self._patients[index.row()].disease != value:
+                    self._patients[index.row()].disease = value
+                    self.dataChanged.emit(index, index)
+                return True
+
+        return False
+
     def roleNames(self) -> dict[int, bytes]:
         return patient_role_names
 
     def rowCount(self, index: QModelIndex = QModelIndex()) -> int:
         return len(self._patients)
 
-    @Slot(str, int, str, str, str, bool, bool, bool, bool, str)
-    def _append_slot(self, patient_name: str, age: int, sex: str, cholesterol_level: str, blood_pressure: str,
+    @Slot(str, str, int, str, str, str, bool, bool, bool, bool, str)
+    def _append_slot(self, patient_id, patient_name: str, age: int, sex: str, cholesterol_level: str,
+                     blood_pressure: str,
                      difficulty_breathing: bool, fatigue: bool, cough: bool, fever: bool, disease: str):
-        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
-        self._patients.insert(0, PatientItem(str(hash(patient_name)), patient_name, age, sex, cholesterol_level,
+        self.beginInsertRows(QModelIndex(), 0, 0)
+        self._patients.insert(0, PatientItem(patient_id, patient_name, age, sex, cholesterol_level,
                                              blood_pressure, difficulty_breathing, fatigue, cough, fever, disease))
         self.endInsertRows()
 
-    def append(self, patient_name: str, age: int, sex: str, cholesterol_level: str, blood_pressure: str,
+    def append(self, patient_id: str, patient_name: str, age: int, sex: str, cholesterol_level: str,
+               blood_pressure: str,
                difficulty_breathing: bool, fatigue: bool, cough: bool, fever: bool, disease: str):
-        self._append_signal.emit(patient_name, age, sex, cholesterol_level,
+        self._append_signal.emit(patient_id, patient_name, age, sex, cholesterol_level,
                                  blood_pressure, difficulty_breathing, fatigue, cough, fever, disease)
 
     @Slot(str)
