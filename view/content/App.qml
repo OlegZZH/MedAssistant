@@ -80,7 +80,9 @@ Window {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: binButton.left
             anchors.rightMargin: 12
+            enabled: listView.count > 0
             icon.color: "#ffffff"
+            opacity: enabled ? 1 : 0.6
             icon.source: "images/export.svg"
             display: AbstractButton.IconOnly
             background: Rectangle {

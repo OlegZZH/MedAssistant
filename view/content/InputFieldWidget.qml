@@ -5,14 +5,15 @@ Item {
     id: inputFieldWidget
     width: 342
     height: fieldName.height + inputBg.height + 8
+    property alias acceptableInput: textInput.acceptableInput
     property alias textInputReadOnly: textInput.readOnly
     property alias fieldName: fieldName.text
     property alias unitText: unit.text
     property alias inputText: textInput.text
     property alias placeholderText: textInput.placeholderText
     property alias inputHints: textInput.inputMethodHints
-    property alias inputMask: textInput.inputMask
     property bool necessarily: false
+    property alias validator: textInput.validator
 
     property bool unitVisible: false
 
@@ -41,8 +42,8 @@ Item {
         height: 34
 
         radius: 4
-        color: "#26293E"
-        border.color: "#464C6D"
+        color: textInput.acceptableInput ? "#26293E" : "#A00606"
+        border.color: textInput.acceptableInput ? "#464C6D" : "#761010"
         border.width: 1
         anchors.left: parent.left
         anchors.right: parent.right

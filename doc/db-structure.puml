@@ -1,0 +1,21 @@
+@startyaml
+
+DatabaseApplication:
+
+    patients:
+        patient_id1:
+            patient_name : (str)
+            age :(int)
+            sex :(str)
+            cholesterol_level:(str)
+            blood_pressure:(str)
+            difficulty_breathing:(bool)
+            fatigue:(bool)
+            cough:(bool)
+            fever:(bool)
+            disease:(str)
+
+        patient_N:
+            - ...
+
+@endyaml

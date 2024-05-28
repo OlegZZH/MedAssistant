@@ -41,9 +41,10 @@ ModalWindowFrame {
         y: 367
         text: "Add"
         enabled: nameFieldWidget.inputText !== "" && ageFieldWidget.inputText !== "" && sexFieldWidget.current
-                 !== -1 && (feverCheckBoxWidget.checked || coughCheckBoxWidget.checked || fatigueCheckBoxWidget.checked
-                            || difficultyBreathingCheckBoxWidget.checked || bloodPressureFieldWidget.current
-                            > 0 || cholesterolLevelFieldWidget.current > 0)
+                 !== -1 && ageFieldWidget.acceptableInput
+                 && (feverCheckBoxWidget.checked || coughCheckBoxWidget.checked
+                     || fatigueCheckBoxWidget.checked || difficultyBreathingCheckBoxWidget.checked
+                     || bloodPressureFieldWidget.current > 0 || cholesterolLevelFieldWidget.current > 0)
         anchors.left: parent.horizontalCenter
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -103,11 +104,15 @@ ModalWindowFrame {
         anchors.top: rectangle.bottom
         anchors.leftMargin: 6
         anchors.topMargin: 6
+        inputText: "0"
         necessarily: true
         fieldName: "Age"
         placeholderText: "Age"
-        inputText: ""
 
+        validator: IntValidator {
+            top: 150
+            bottom: 0
+        }
         inputHints: Qt.ImhDigitsOnly
     }
 
