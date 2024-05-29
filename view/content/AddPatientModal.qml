@@ -194,7 +194,7 @@ ModalWindowFrame {
         anchors.topMargin: 12
         fieldTitle: "Blood Pressure"
         current: 0
-        comboModel: ["Normal", "High"]
+        comboModel: ["Normal", "Low", "High"]
     }
 
     ComboFieldWidget {
@@ -208,7 +208,7 @@ ModalWindowFrame {
         anchors.topMargin: 12
         fieldTitle: "Cholesterol Level"
         current: 0
-        comboModel: ["Normal", "High"]
+        comboModel: ["Normal", "Low", "High"]
     }
 
     Text {

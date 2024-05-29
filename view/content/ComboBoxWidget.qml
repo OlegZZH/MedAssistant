@@ -27,7 +27,7 @@ ComboBox {
         id: arrow
         width: 24
         height: 24
-        visible: true
+        visible: customComboBoxWidget.enabled
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
 

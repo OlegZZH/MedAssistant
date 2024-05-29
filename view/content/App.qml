@@ -32,6 +32,10 @@ Window {
         spacing: 10
         model: med_model.patient_list
         delegate: DropDownBlockWidget {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: 0
+            anchors.rightMargin: 0
             titleText: model.patient_name
             ageFieldWidgetInputText: model.age
             sexFieldWidget.current: sexFieldWidget.comboModel.indexOf(model.sex)
@@ -41,7 +45,7 @@ Window {
             fatigueCheckBoxWidgetChecked: model.fatigue
             coughCheckBoxWidgetChecked: model.cough
             feverCheckBoxWidgetChecked: model.fever
-            diseaseText: model.disease
+            disease: model.disease
             checkable: delModeEnabled
             onCheckedChanged: {
                 if (checked) {
@@ -49,6 +53,9 @@ Window {
                 } else {
                     listView.patientGroup.pop(model.patient_id)
                 }
+            }
+            Component.onCompleted: {
+                console.log(model.blood_pressure)
             }
         }
 

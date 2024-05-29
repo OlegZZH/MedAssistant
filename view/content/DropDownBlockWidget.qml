@@ -13,13 +13,13 @@ Rectangle {
     property alias cholesterolLevelFieldWidget: cholesterolLevelFieldWidget
     property alias bloodPressureFieldWidget: bloodPressureFieldWidget
     property alias sexFieldWidget: sexFieldWidget
-    property alias diseaseText: disease.text
+    property string disease: ""
     property alias difficultyBreathingCheckBoxWidgetChecked: difficultyBreathingCheckBoxWidget.checked
     property alias fatigueCheckBoxWidgetChecked: fatigueCheckBoxWidget.checked
     property alias coughCheckBoxWidgetChecked: coughCheckBoxWidget.checked
     property alias feverCheckBoxWidgetChecked: feverCheckBoxWidget.checked
     property alias ageFieldWidgetInputText: ageFieldWidget.inputText
-    property alias titleText: name.text
+    property string titleText: "Text"
     property bool checkable: false
     property bool checked: false
     clip: true
@@ -28,7 +28,7 @@ Rectangle {
 
     Text {
         id: name
-        text: qsTr("Text")
+        text: qsTr(`${dropDownWidget.titleText} :`)
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.leftMargin: 20
@@ -38,13 +38,13 @@ Rectangle {
     }
     Text {
         id: disease
-        text: qsTr("Text")
+        text: qsTr(`${dropDownWidget.disease}`)
         anchors.left: name.right
         anchors.top: parent.top
-        anchors.leftMargin: 4
+        anchors.leftMargin: 8
         anchors.topMargin: 20
         font.pixelSize: 20
-        color: dropDownWidget.enabled ? "#F1F2F8" : "#64687E"
+        color: text === "Healthy" ? "#268428" : "#A00606"
     }
 
     Image {
@@ -122,7 +122,7 @@ Rectangle {
             anchors.top: rectangle.bottom
             anchors.topMargin: 6
             placeholderText: "Patient Name"
-            inputText: name.text
+            inputText: dropDownWidget.titleText
             enabled: false
             inputHints: Qt.ImhPreferUppercase
         }
@@ -223,7 +223,7 @@ Rectangle {
             anchors.topMargin: 12
             fieldTitle: "Blood Pressure"
             current: 0
-            comboModel: ["Normal", "High"]
+            comboModel: ["Normal", "Low", "High"]
             enabled: false
         }
 
@@ -238,7 +238,7 @@ Rectangle {
             anchors.topMargin: 12
             fieldTitle: "Cholesterol Level"
             current: 0
-            comboModel: ["Normal", "High"]
+            comboModel: ["Normal", "Low", "High"]
             enabled: false
         }
     }
