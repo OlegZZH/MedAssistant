@@ -1,0 +1,26 @@
+@startuml
+
+skinparam SequenceMessageAlign first
+
+participant App as app order 10
+participant View as view order 20 #lightblue
+participant Controller as controller order 30 #pink
+participant Model as model order 40 #lightgreen
+
+group Initialization
+    app -> model : Create a model instance\nwith default values
+    activate model
+    app -> controller : Create a controller instance\nand send the model instance\nas an argument to\nthe constructor
+    activate controller
+    controller --> model : Initialize the model\nwith data from database, hardware\nand ventilation controller
+    app -> view : Create a view instance
+    app -> view : Link the model to the view
+    app -> view : Link the controller to the view
+    app -> view : Show the view
+    activate view
+    model --> view : Visualize the GUI\naccording to the model
+end
+
+== Application is ready ==
+
+@enduml

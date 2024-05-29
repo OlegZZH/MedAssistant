@@ -44,7 +44,7 @@ Rectangle {
         anchors.leftMargin: 8
         anchors.topMargin: 20
         font.pixelSize: 20
-        color: text === "Healthy" ? "#268428" : "#A00606"
+        color: text === "Healthy" ? "#7CCA7D" : "#E44F4F"
     }
 
     Image {

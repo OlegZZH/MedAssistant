@@ -1,0 +1,44 @@
+@startuml
+
+class Controller {
+    ...
+}
+
+package task_manager {
+    class TaskManager {
+
+        + task_pool: QThreadPool
+        + task_mutex: QMutex
+        + periodic_tasks: dict of "<task_name>": QTimer
+        ---
+        + stop_all_periodic_tasks()
+        + start_all_periodic_tasks()
+    }
+
+    class TaskRunner {
+        + task_mansger: TaskManager
+        + task
+        + args
+        + kwargs
+        + result: TaskResult
+    }
+
+    class TaskResult{
+        + status
+        + result
+    }
+
+    class QRunnable {}
+
+    class QObject {}
+
+    annotation background_task
+    annotation periodic_task
+}
+
+Controller <|-- TaskManager
+TaskManager <|-- QObject
+TaskResult <|-- QObject
+TaskRunner <|-- QRunnable
+
+@enduml

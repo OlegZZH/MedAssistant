@@ -54,9 +54,6 @@ Window {
                     listView.patientGroup.pop(model.patient_id)
                 }
             }
-            Component.onCompleted: {
-                console.log(model.blood_pressure)
-            }
         }
 
         CustomModal {
