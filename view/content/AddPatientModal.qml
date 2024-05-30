@@ -220,4 +220,17 @@ ModalWindowFrame {
         anchors.leftMargin: 6
         font.pixelSize: 18
     }
+    onVisibleChanged: {
+        if (visible) {
+            nameFieldWidget.inputText = ""
+            ageFieldWidget.inputText = "0"
+            sexFieldWidget.current = -1
+            feverCheckBoxWidget.checked = false
+            coughCheckBoxWidget.checked = false
+            fatigueCheckBoxWidget.checked = false
+            difficultyBreathingCheckBoxWidget.checked = false
+            bloodPressureFieldWidget.current = 0
+            cholesterolLevelFieldWidget.current = 0
+        }
+    }
 }

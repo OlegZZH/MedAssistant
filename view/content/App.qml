@@ -32,10 +32,7 @@ Window {
         spacing: 10
         model: med_model.patient_list
         delegate: DropDownBlockWidget {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
+            width: listView.width
             titleText: model.patient_name
             ageFieldWidgetInputText: model.age
             sexFieldWidget.current: sexFieldWidget.comboModel.indexOf(model.sex)

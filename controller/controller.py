@@ -49,14 +49,7 @@ class Controller(TaskManager):
         self.target = df["Disease"]
         df = df.iloc[:, 1:]
         x_train, x_test, y_train, y_test = train_test_split(df.iloc[:, :8], df.iloc[:, -1], test_size=0.15)
-        self.oe = OrdinalEncoder(categories=[["No", 'Yes']])
-        self.oe.fit_transform(x_train["Fever"].array.reshape(-1, 1))
-        self.be = OrdinalEncoder(categories=[["No", 'Yes']])
-        self.be.fit_transform(x_train["Cough"].array.reshape(-1, 1))
-        self.ce = OrdinalEncoder(categories=[["No", 'Yes']])
-        self.ce.fit_transform(x_train["Fatigue"].array.reshape(-1, 1))
-        self.de = OrdinalEncoder(categories=[["No", 'Yes']])
-        self.de.fit_transform(x_train["Difficulty Breathing"].array.reshape(-1, 1))
+
         self.fe = OrdinalEncoder(categories=[['Low', 'Normal', "High"]])
         self.fe.fit_transform(x_train["Blood Pressure"].array.reshape(-1, 1))
         self.ge = OrdinalEncoder(categories=[['Low', 'Normal', "High"]])
